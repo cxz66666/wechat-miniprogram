@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Git Dark Magic</title>
+<meta name="author" content="(Allosaurus)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Git Dark Magic</h1><h2 class="author">Allosaurus</h2><p class="date">Created: 2020-12-19 Sat 01:49</p>
+</section>
+<section>
+<section id="slide-orgecf9d2f">
+<h2 id="orgecf9d2f">Git Dark Magic</h2>
+<p>
+by: Allosaurus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org96a0bea">
+<h2 id="org96a0bea">Some useful mantras</h2>
+<div class="outline-text-2" id="text-org96a0bea">
+</div>
+</section>
+<section id="slide-org45f400a">
+<h3 id="org45f400a">WTF? Pull conflicts?</h3>
+<p>
+   Sometimes we do encounter some conflicts, if the conflict is
+between the commit you merge and the local change, we can resolve this
+by using <code>git stash</code>:
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-sh"><code trim>git stash
+git pull
+git pop
+</code></pre>
+</div>
+<p>
+Notice that this way to resolve conflicts is to replace the commit
+change with our own(where conflicts lie).
+</p>
+</section>
+<section id="slide-orgb7aeaa5">
+<h3 id="orgb7aeaa5">git stash</h3>
+<ul>
+<li>Stash the changes in a dirty working directory away.</li>
+<li>Useful when you have an interrupted workflow</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-sh"><code trim><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">... hack hack hack ...</span>
+$ git stash
+$ edit emergency fix
+$ git commit -a -m <span style="color: #b5bd68;">"Fix in a hurry"</span>
+$ git stash pop
+<span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">... continue hacking ...</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org9e63b16">
+<h3 id="org9e63b16">PM too demanding?</h3>
+<p>
+You would like consider using <code>git worktree</code> to create multiple new working
+directory linked to your repository. There directories are
+associated with a specific branch (usually the branches with the
+same names). For example, <code>hotfix</code> and <code>feature</code>, one for bug-fixing
+and one for feature-adding.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-sh"><code trim>git worktree add -b feature feature master
+git worktree add -b hotfix hotfix master
+<span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">cd into feature or hotfix for editing and commiting.</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orge813efc">
+<h3 id="orge813efc">Multiple worktrees</h3>
+<p>
+Two worktrees <code>feature</code> and <code>hotfix</code>.
+<img src="./pics/worktree.png" alt="worktree.png" />
+</p>
+<ul>
+<li>You can also use <code>git worktree prune</code> to remove these trees.</li>
+<li>More on <code>git worktree</code>:<a href="https://git-scm.com/docs/git-worktree">git-worktree</a></li>
+
+</ul>
+</section>
+<section id="slide-org5ee186d">
+<h3 id="org5ee186d">Can I include another git repository to my repository?</h3>
+<p>
+Yes! Using <code>git submodule</code> !
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-sh"><code trim><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">add a submodule</span>
+git submodule add https://github.com/dino/amazingsubmod amazingsubmod/
+</code></pre>
+</div>
+<p>
+If you clone a repository using submodules:
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-sh"><code trim><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">add a submodule</span>
+git submodule init
+git submodule update
+</code></pre>
+</div>
+<p>
+Basically you manage the submodule directory like a separate git repository.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org2eb816b">
+<h2 id="org2eb816b">Unravel the mystery of <code>git rebase</code></h2>
+<div class="outline-text-2" id="text-org2eb816b">
+</div>
+</section>
+<section id="slide-org10e982f">
+<h3 id="org10e982f">Warning! Advance users only!!!</h3>
+<p>
+<code>git rebase</code> rewrites the commit history. It can be harmful to do it in
+shared branches. It can cause complex and hard to resolve merge
+conflicts.
+</p>
+</section>
+<section id="slide-org3b2e8d3">
+<h3 id="org3b2e8d3">What happen when we rebase?</h3>
+<p>
+<a href="./pics/git-rebase.png ">./pics/git-rebase.png </a>
+</p>
+</section>
+<section id="slide-orgd88bf73">
+<h3 id="orgd88bf73">Merge vs Rebase</h3>
+<p>
+The huge difference is that how these two treat the commit history:
+</p>
+<ul>
+<li>Merge: always keeps them.</li>
+<li>Rebase: sometimes drops them or changes them.</li>
+
+</ul>
+<p>
+Another example is that when encountering conflicts:
+</p>
+<ul>
+<li>Merge: always resolves conflicts by making a new commit(the one
+where you resolve your commits).</li>
+<li>Rebase: always resolves conflicts by changing or deleting
+commits.</li>
+
+</ul>
+</section>
+<section id="slide-orga2032ee">
+<h3 id="orga2032ee">So, what the hell do we need rebase?</h3>
+<ul>
+<li>As we know from the above, <code>git rebase</code> is pretty a dangerous command,
+we <b>only</b> use it when we want to change commit history.</li>
+<li>Ohhh, and you should always use <code>git rebase -i</code>. XD</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orged63158">
+<h2 id="orged63158">Other intermidiate git commands</h2>
+<p>
+&#x2026;WIP&#x2026;
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgbdfc22c">
+<h2 id="orgbdfc22c">Reference and useful links</h2>
+<ul>
+<li><a href="https://riptutorial.com/git">RIP tutorial - Git</a></li>
+<li><a href="https://www.git-scm.com/docs">Git Reference</a></li>
+<li><a href="https://backlog.com/git-tutorial">Backlog Git Tutorial</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org0e32cf0">
+<h2 id="org0e32cf0">Questions?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
