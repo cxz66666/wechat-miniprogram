@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body {
+            min-width: 550px;
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .column {
+            height: 200px;
+            color: white;
+        }
+
+        #center {
+            flex-grow: 1;
+            background-color: black;
+        }
+
+        #left {
+            flex-basis: 200px;
+            background-color: red;
+        }
+
+        #right {
+            flex-basis: 200px;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 定义父级元素 -->
+
+    <div id="container">
+        <div id="left" class="column">#left</div>
+        <div id="center" class="column">#center</div>
+        <div id="right" class="column">#right</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .demo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo div {
+            flex: 1;
+        }
+
+        .body {
+            display: flex;
+        }
+
+        .header,
+        .footer {
+            background: grey;
+            line-height: 80px;
+            text-align: center;
+        }
+
+        .left,
+        .right {
+            background: pink;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        .header,
+        .footer,
+        .left,
+        .right {
+            flex: 0 0 20% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 定义父级元素 -->
+
+    <div class="demo">
+        <div class="header">头部</div>
+        <div class="body">
+            <div class="left">left</div>
+            <div class="center">center</div>
+            <div class="right">right</div>
+        </div>
+        <div class="footer">底部</div>
+    </div>
+</body>
+
+</html>
