@@ -1,0 +1,6 @@
+.vscode
+libs
+node_modules
+miniprogram_npm
+yarn.lock
+project.config.json
