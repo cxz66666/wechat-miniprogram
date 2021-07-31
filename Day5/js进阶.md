@@ -689,6 +689,7 @@ class Point {
   toString() {
     return '(' + this.x + ', ' + this.y + ')';
   }
+    
 }
 ```
 
@@ -1100,6 +1101,9 @@ class ColorPoint extends Point {
 
 ```javascript
 class A {
+    toString(){
+        
+    }
 }
 
 class B extends A {
