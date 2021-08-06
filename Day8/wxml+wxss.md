@@ -20,7 +20,7 @@ Page({
 ### 组件属性(需要在双引号之内)
 
 ```html
-<view id="item-{{id}}"> </view>
+<view id="{{id}}"> </view>
 Page({
   data: {
     id: 0
@@ -69,7 +69,8 @@ Page({
   data: {
     a: 1,
     b: 2,
-    c: 3
+    c: 3,
+	d: 1
   }
 })
 ```
@@ -199,6 +200,11 @@ Page({
 <view wx:for="{{[1,2,3]}} ">
   {{item}}
 </view>
+
+
+<view wx:for="{{[1,2,3]}}">
+  {{item}}
+</view>
 ```
 
 等同于
@@ -227,8 +233,12 @@ Page({
 <view wx:for="{{array}}">
   {{index}}: {{item.message}}
 </view>
+
+
 Page({
   data: {
+
+	index:123,
     array: [{
       message: 'foo',
     }, {
@@ -293,15 +303,15 @@ Page({
 在框架中，使用 `wx:if=""` 来判断是否需要渲染该代码块：
 
 ```html
-<view wx:if="{{condition}}"> True </view>
+<view wx:if="{{}}"> True </view>
 ```
 
 也可以用 `wx:elif` 和 `wx:else` 来添加一个 else 块：
 
 ```html
-<view wx:if="{{length > 5}}"> 1 </view>
-<view wx:elif="{{length > 2}}"> 2 </view>
-<view wx:else> 3 </view>
+<view style="display:{{length>5?'':'none'}}"  id="view1"> 1 </view>
+<view style="display:{{length>2&&length<5?'':'none'}}"  id="view2"> 2 </view>
+<view style="display:{{length<2?'':'none'}}" > 3 </view>
 ```
 
 ## block wx:if
@@ -415,15 +425,30 @@ is 属性可以使用 Mustache 语法，来动态决定具体需要渲染哪个�
 如`bindtap`，当用户点击该组件的时候会在该页面对应的Page中找到相应的事件处理函数。
 
 ```html
-<view id="tapTest" data-hi="Weixin" bindtap="tapName"> Click me! </view>
+<view bindtap="">
+    
+    <view bindtap="tapName">
+
+
+<view wx:for={{[1,2,3,4,5,6]}} id="tapTest" data-index="{{index}}" data-hi="Weixin" bindtap="tapName"> Click me! </view>
+
+</view>
+
+    
+</view>
+
 ```
 
 - 在相应的Page定义中写上相应的事件处理函数，参数是event。
 
 ```js
 Page({
-  tapName: function(event) {
-    console.log(event)
+    data:{
+        id:10
+        cxz:"tapName"
+    }
+  tapName: function(e) {
+    console.log(e)
   }
 })
 ```
@@ -437,13 +462,15 @@ Page({
   "target": { //哪个组件发出的事件？
     "id": "tapTest",
     "dataset":  {
-      "hi":"Weixin"
+      "hi":"Weixin",
+        
     }
   },
   "currentTarget":  { //哪个组件绑定了处理的函数？
     "id": "tapTest",
     "dataset": {
-      "hi":"Weixin"
+      "hi":"Weixin",
+      "index":3,
     }
   },
   "detail": {
@@ -565,6 +592,8 @@ Page({
 
 ### 尺寸单位
 
+
+
 - rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。如在 iPhone6 上，屏幕宽度为375px，共有750个物理像素，则750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。
 
 | 设备         | rpx换算px (屏幕宽度/750) | px换算rpx (750/屏幕宽度) |
@@ -585,7 +614,9 @@ Page({
   padding:5px;
 }
 /** app.wxss **/
+
 @import "common.wxss";
+
 .middle-p {
   padding:15px;
 }
@@ -599,7 +630,16 @@ Page({
 
 ```html
 <view style="color:{{color}};" />
+
+
+page({
+data:{
+	color:"blue",
+}
+})
 ```
+
+
 
 
 
@@ -611,7 +651,7 @@ Page({
 | :--------------- | :--------------- | :--------------------------------------------- |
 | .class           | `.intro`         | 选择所有拥有 class="intro" 的组件              |
 | #id              | `#firstname`     | 选择拥有 id="firstname" 的组件                 |
-| element          | `view`           | 选择所有 view 组件                             |
+| element tag      | `view`           | 选择所有 view 组件                             |
 | element, element | `view, checkbox` | 选择所有文档的 view 组件和所有的 checkbox 组件 |
 | ::after          | `view::after`    | 在 view 组件后边插入内容                       |
 | ::before         | `view::before`   | 在 view 组件前边插入内容                       |

@@ -2,7 +2,7 @@
 
 https://developers.weixin.qq.com/miniprogram/dev/api/  官方文档地址
 
- ## wx.request https网络请求
+## wx.request https网络请求
 
 ~~~js
 wx.request({
@@ -35,21 +35,21 @@ console.log(res.data)
 
  
 
- ### 通过key的形式添加缓存setStorage （异步接口）
+### 通过key的形式添加缓存setStorage （异步接口）
 
 wx.setStorage({
 
-key:"key"
+a:[1,2,3,4,5],
 
-data:"value"
+b:"123123"
 
 })
 
- ### 通过key的形式获取缓存getStorage （异步接口）
+### 通过key的形式获取缓存getStorage （异步接口）
 
 wx.getStorage({
 
-key: 'key',
+key: 'a',
 
 success: function(res) {
 
@@ -91,7 +91,13 @@ wx.hideToast()
 
 },2000)
 
- ## 动态设置当前页面的标题
+wx.showModal({
+
+
+
+})
+
+## 动态设置当前页面的标题
 
 wx.setNavigationBarTitle({
 
@@ -109,13 +115,13 @@ url: 'test?id=1'
 
 })
 
- ### 关闭当前页面，跳转到应用内的某个页面
+### 关闭当前页面，跳转到应用内的某个页面
 
 wx.redirectTo({ url: 'test?id=1'
 
 })
 
- ## 获取用户信息，需要先调用wx.login 接口
+## 获取用户信息，需要先调用wx.login 接口
 
 wx.getUserInfo({
 
@@ -139,7 +145,7 @@ var country = userInfo.country
 
 })
 
- ## 获取系统信息（异步接口）
+## 获取系统信息（异步接口）
 
 wx.getSystemInfo({
 
@@ -171,7 +177,7 @@ phoneNumber: '1340000' //仅为示例，并非真实的电话号码
 
  
 
- ## 获取当前的地理位置、速度
+## 获取当前的地理位置、速度
 
 wx.getLocation({
 
